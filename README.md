@@ -1,4 +1,4 @@
-# 🛠️ Reviving a Dead Hi-Link HLK-7628N: Complete Unbricking (Breed + OpenWrt)
+# Reviving a Dead Hi-Link HLK-7628N: Complete Unbricking (Breed + OpenWrt)
 
 [![OpenWrt Version](https://img.shields.io/badge/OpenWrt-25.12.2-blue?logo=openwrt&logoColor=white)](https://openwrt.org)
 [![Kernel](https://img.shields.io/badge/Linux_Kernel-6.12.74-brightgreen?logo=linux&logoColor=white)](https://kernel.org)
@@ -10,21 +10,21 @@ A comprehensive, engineering-grade walkthrough on reviving a hard-bricked **Hi-L
 
 ---
 
-## 📑 Table of Contents
-- [Hardware Overview](#-hardware-overview)
-- [SPI Flash Memory Layout](#-spi-flash-memory-layout)
-- [Prerequisites & Bill of Materials](#-prerequisites--bill-of-materials)
+## Table of Contents
+- [Hardware Overview](#hardware-overview)
+- [SPI Flash Memory Layout](#spi-flash-memory-layout)
+- [Prerequisites & Bill of Materials](#prerequisites--bill-of-materials)
 - [Step 1: Hardware Connections (CH341A & Pinout)](#step-1-hardware-connections-ch341a--pinout)
 - [Step 2: Rescuing the Factory Wi-Fi Calibration (Crucial!)](#step-2-rescuing-the-factory-wi-fi-calibration-crucial)
 - [Step 3: Flashing Breed Bootloader & Solving In-Circuit Erase Glitches](#step-3-flashing-breed-bootloader--solving-in-circuit-erase-glitches)
 - [Step 4: Serial Console & Booting into Breed](#step-4-serial-console--booting-into-breed)
 - [Step 5: Solving the LZMA Overlap Issue & Booting OpenWrt](#step-5-solving-the-lzma-overlap-issue--booting-openwrt)
 - [Step 6: Permanent Installation & Verification](#step-6-permanent-installation--verification)
-- [Troubleshooting](#-troubleshooting)
+- [Troubleshooting](#troubleshooting)
 
 ---
 
-## 🔬 Hardware Overview
+## Hardware Overview
 
 The **HLK-7628N** is an industrial Wi-Fi module powered by the **MediaTek MT7628AN** (MIPS 24KEc @ 580MHz) featuring 128MB RAM and a 32MB SPI Flash (Winbond W25Q256FV).
 
@@ -44,7 +44,7 @@ The **HLK-7628N** is an industrial Wi-Fi module powered by the **MediaTek MT7628
 
 ---
 
-## 🗺️ SPI Flash Memory Layout
+## SPI Flash Memory Layout
 
 Understanding the exact memory map prevents destructive overwrites:
 
@@ -63,7 +63,7 @@ Understanding the exact memory map prevents destructive overwrites:
 
 ---
 
-## 🧰 Prerequisites & Bill of Materials
+## Prerequisites & Bill of Materials
 
 * **Hardware:**
   * Hi-Link HLK-7628N Module
@@ -168,9 +168,9 @@ Verifying flash... VERIFIED.
 ## Step 4: Serial Console & Booting into Breed
 
 Wire your USB-to-TTL converter:
-* **HLK-7628N TX0** ➔ **Adapter RX**
-* **HLK-7628N RX0** ➔ **Adapter TX**
-* **GND** ➔ **GND**
+* **HLK-7628N TX0** -> **Adapter RX**
+* **HLK-7628N RX0** -> **Adapter TX**
+* **GND** -> **GND**
 
 Open the serial terminal at **57600 baud**:
 ```bash
@@ -323,7 +323,7 @@ Reach the router at `http://192.168.1.1/cgi-bin/luci/`:
 
 ---
 
-## 💡 Troubleshooting
+## Troubleshooting
 
 | Issue / Error | Root Cause | Working Resolution |
 | :--- | :--- | :--- |
@@ -335,7 +335,7 @@ Reach the router at `http://192.168.1.1/cgi-bin/luci/`:
 
 ---
 
-## 📜 License
+## License
 
 This project — documentation, recovery research, and images — is released under the [MIT License](LICENSE).
 
