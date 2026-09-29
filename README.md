@@ -1,4 +1,4 @@
-# 🛠️ Reviving a Dead Hi-Link HLK-7628N: Complete Unbricking (breed + openwrt)
+# 🛠️ Reviving a Dead Hi-Link HLK-7628N: Complete Unbricking (Breed + OpenWrt)
 
 [![OpenWrt Version](https://img.shields.io/badge/OpenWrt-25.12.2-blue?logo=openwrt&logoColor=white)](https://openwrt.org)
 [![Kernel](https://img.shields.io/badge/Linux_Kernel-6.12.74-brightgreen?logo=linux&logoColor=white)](https://kernel.org)
@@ -20,7 +20,7 @@ A comprehensive, engineering-grade walkthrough on reviving a hard-bricked **Hi-L
 - [Step 4: Serial Console & Booting into Breed](#step-4-serial-console--booting-into-breed)
 - [Step 5: Solving the LZMA Overlap Issue & Booting OpenWrt](#step-5-solving-the-lzma-overlap-issue--booting-openwrt)
 - [Step 6: Permanent Installation & Verification](#step-6-permanent-installation--verification)
-- [Troubleshooting & Lessons Learned](#-troubleshooting--lessons-learned)
+- [Troubleshooting](#-troubleshooting)
 
 ---
 
@@ -80,7 +80,7 @@ Understanding the exact memory map prevents destructive overwrites:
 
 ## Step 1: Hardware Connections (CH341A & Pinout)
 
-Connect the HLK-7628 spi pins to your CH341A programmer.
+Connect the HLK-7628N SPI pins to your CH341A programmer as shown below.
 
 ![Wiring Diagram](/img/00.png)
 
@@ -120,7 +120,7 @@ Found Winbond flash chip "W25Q256FV" (32768 kB, SPI) on ch341a_spi.
    ```bash
    hexdump -C factory.bin | head -n 4
    ```
-   Ensure byte 0 starts with `7628` (MediaTek magic signature) along with original MAC addresses:
+   The first two bytes must read `28 76` (little-endian `0x7628`, the MediaTek magic signature), followed by the module's original MAC address:
    ```text
    00000000  28 76 00 02 00 0c 43 e1  76 30 00 00 00 00 00 00  |(v....C.v0......|
    ```
@@ -129,7 +129,7 @@ Found Winbond flash chip "W25Q256FV" (32768 kB, SPI) on ch341a_spi.
 
 ## Step 3: Flashing Breed Bootloader & Solving In-Circuit Erase Glitches
 
-we use **Breed** ("The Immortal Bootloader"), which features a built-in HTTP Web Recovery Console.
+We use **Breed** ("The Immortal Bootloader"), which features a built-in HTTP Web Recovery Console.
 
 ### 1. Construct the Padded 32MB Flash Image
 `flashrom` strictly requires the payload to match the physical chip size (33,554,432 bytes). Padding with `0xFF` ensures empty sectors are skipped during write:
@@ -262,8 +262,13 @@ Now that OpenWrt is running live in RAM, flash it permanently to the SPI chip us
 
 1. **Download image from your PC:**
    ```bash
-       wget http://192.168.1.10:8000/openwrt-25.12.2-ramips-mt76x8-hilink_hlk-7628n-squashfs-sysupgrade.bin -P /tmp/
+   wget -O /tmp/fw.bin http://192.168.1.10:8000/openwrt-25.12.2-ramips-mt76x8-hilink_hlk-7628n-squashfs-sysupgrade.bin
    ```
+   > [!NOTE]
+   > If the OpenWrt firewall blocks outbound `wget`, push the image from your PC instead:
+   > ```bash
+   > scp openwrt-25.12.2-ramips-mt76x8-hilink_hlk-7628n-squashfs-sysupgrade.bin root@192.168.1.1:/tmp/fw.bin
+   > ```
 2. **Execute native flash write:**
    ```bash
    sysupgrade -v -n /tmp/fw.bin
@@ -331,4 +336,9 @@ Reach the router at `http://192.168.1.1/cgi-bin/luci/`:
 ---
 
 ## 📜 License
-Documentation and recovery research provided under the [MIT License](LICENSE).
+
+This project — documentation, recovery research, and images — is released under the [MIT License](LICENSE).
+
+© 2026 Reza Bakhshi
+
+> Breed Bootloader is © HackPascal, and OpenWrt is a registered trademark of the Software Freedom Conservancy. This project is an independent, non-commercial recovery guide and is not affiliated with Hi-Link, MediaTek, or the OpenWrt project.
